@@ -245,7 +245,10 @@ def write_plans(plans, output_file):
             # Leg (except after last act)
             if i < len(activities) - 1:
                 leg = ET.SubElement(plan, 'leg')
-                leg.set('mode', 'car')  # Default mode
+                if plan_data['carAvail'] == 'always':
+                    leg.set('mode', 'car')
+                else:
+                    leg.set('mode', 'pt')
 
     # Write to file directly using ET
     tree = ET.ElementTree(root)

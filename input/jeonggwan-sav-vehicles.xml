@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE vehicles SYSTEM "http://matsim.org/files/dtd/dvrp_vehicles_v1.dtd">
+<vehicles>
+  <vehicle id="sav_veh_1" start_link="1340307001" t_0="21600" t_1="79200" capacity="4"/>
+  <vehicle id="sav_veh_2" start_link="1410114014" t_0="21600" t_1="79200" capacity="4"/>
+  <vehicle id="sav_veh_3" start_link="1450734501" t_0="21600" t_1="79200" capacity="4"/>
+  <vehicle id="sav_veh_4" start_link="3880006502" t_0="21600" t_1="79200" capacity="4"/>
+  <vehicle id="sav_veh_5" start_link="1450422014" t_0="21600" t_1="79200" capacity="4"/>
+  <vehicle id="sav_veh_6" start_link="1440065300" t_0="21600" t_1="79200" capacity="4"/>
+  <vehicle id="sav_veh_7" start_link="3880805900" t_0="21600" t_1="79200" capacity="4"/>
+  <vehicle id="sav_veh_8" start_link="1380056401" t_0="21600" t_1="79200" capacity="4"/>
+  <vehicle id="sav_veh_9" start_link="3880145208" t_0="21600" t_1="79200" capacity="4"/>
+  <vehicle id="sav_veh_10" start_link="1380062900" t_0="21600" t_1="79200" capacity="4"/>
+</vehicles>

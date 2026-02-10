@@ -1,0 +1,46 @@
+header:
+  title: DRT/SAV Analysis Dashboard
+  description: Multi-mode simulation results for Jeonggwan
+
+layout:
+  row1:
+    - type: map
+      title: DRT Boardings by Stop
+      height: 12
+      datasets:
+        stops:
+          file: null-multimode.output_drt_boardings_drt.csv
+          delimiter: ";"
+      center: [129.14, 35.28]
+      zoom: 12
+      shapes:
+        stops:
+          type: point
+          dataset: stops
+          x: x
+          y: y
+
+  row2:
+    - type: csv
+      title: DRT Stop Usage Data
+      file: null-multimode.output_drt_boardings_drt.csv
+      delimiter: ";"
+
+  row3:
+    - type: image
+      title: DRT Wait Time Distribution
+      file: null-multimode.output_waitStats_drt.png
+      
+    - type: image
+      title: DRT Occupancy Profile
+      file: null-multimode.output_occupancy_time_profiles_Line_drt.png
+
+  row4:
+    - type: csv
+      title: Mode Statistics
+      file: null-multimode.modestats.csv
+      delimiter: ";"
+
+    - type: image
+      title: Mode Share Over Iterations
+      file: null-multimode.modestats.png

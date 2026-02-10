@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE config SYSTEM "http://www.matsim.org/files/dtd/config_v2.dtd">
+<config>
+	<!-- SAV (Shared Autonomous Vehicle) Configuration for Jeonggwan Scenario -->
+	<!-- This file should be loaded AFTER the main config -->
+	<!-- SAV uses door-to-door service (no predefined stops) -->
+
+	<module name="multiModeDrt">
+		<parameterset type="drt">
+			<parameterset type="ExtensiveInsertionSearch"/>
+			
+			<!-- Mode name: SAV -->
+			<param name="mode" value="sav" />
+			
+			<!-- Operational Scheme: door2door = pickup/dropoff anywhere -->
+			<param name="operationalScheme" value="door2door" />
+			
+			<!-- SAV vehicles file -->
+			<param name="vehiclesFile" value="jeonggwan-sav-vehicles.xml"/>
+			
+			<!-- Max wait time for pickup (seconds) - shorter than DRT -->
+			<param name="maxWaitTime" value="300.0" />
+			
+			<!-- Max travel time formula: alpha * directTravelTime + beta -->
+			<param name="maxTravelTimeAlpha" value="1.5" />
+			<param name="maxTravelTimeBeta" value="300.0" />
+			
+			<!-- Stop duration (seconds) - shorter for door2door -->
+			<param name="stopDuration" value="30.0"/>
+			
+			<!-- Vehicle returns to depot when idle -->
+			<param name="idleVehiclesReturnToDepots" value="false" />
+			
+			<!-- Use mode-filtered subnetwork -->
+			<param name="useModeFilteredSubnetwork" value="false"/>
+			
+			<!-- Reject if constraints violated -->
+			<param name="rejectRequestIfMaxWaitOrTravelTimeViolated" value="false" />
+			
+			<!-- Write detailed stats -->
+			<param name="writeDetailedCustomerStats" value="true"/>
+			
+			<!-- Start link changes -->
+			<param name="changeStartLinkToLastLinkInSchedule" value="true" />
+			
+			<!-- SAV Fare (free for now) -->
+			<parameterset type="drtfare">
+				<param name="basefare" value="0.0"/>
+				<param name="minFarePerTrip" value="0.0"/>
+				<param name="dailySubscriptionFee" value="0.0"/>
+				<param name="distanceFare_m" value="0.0"/>
+				<param name="timeFare_h" value="0.0"/>
+			</parameterset>
+			
+			<!-- Zonal system for rebalancing -->
+			<parameterset type="zonalSystem">
+				<parameterset type="SquareGridZoneSystem">
+					<param name="cellSize" value="500"/>
+				</parameterset>
+			</parameterset>
+		</parameterset>
+	</module>
+
+	<module name="dvrp">
+		<!-- DVRP uses car network for routing -->
+		<param name="mobsimMode" value="car"/>
+		<param name="networkModes" value="car"/>
+		<param name="travelTimeEstimationAlpha" value="0.05"/>
+		<param name="travelTimeEstimationBeta" value="0.0"/>
+		
+		<parameterset type="travelTimeMatrix">
+			<parameterset type="SquareGridZoneSystem">
+				<param name="cellSize" value="500"/>
+			</parameterset>
+			<param name="maxNeighborDistance" value="5000"/>
+		</parameterset>
+	</module>
+
+</config>

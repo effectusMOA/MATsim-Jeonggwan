@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE vehicles SYSTEM "http://matsim.org/files/dtd/dvrp_vehicles_v1.dtd">
+<vehicles>
+  <vehicle id="drt_bus_1" start_link="1440021003" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_2" start_link="1440063711" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_3" start_link="1961064501" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_4" start_link="3880779700" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_5" start_link="1450922701" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_6" start_link="1440021003" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_7" start_link="1440063711" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_8" start_link="1961064501" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_9" start_link="3880779700" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_10" start_link="1450922701" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_11" start_link="1440021003" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_12" start_link="1440063711" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_13" start_link="1961064501" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_14" start_link="3880779700" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_15" start_link="1450922701" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_16" start_link="1440021003" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_17" start_link="1440063711" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_18" start_link="1961064501" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_19" start_link="3880779700" t_0="21600" t_1="79200" capacity="20"/>
+  <vehicle id="drt_bus_20" start_link="1450922701" t_0="21600" t_1="79200" capacity="20"/>
+</vehicles>

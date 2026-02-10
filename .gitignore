@@ -519,3 +519,33 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/r,osx,java,linux,maven,python,eclipse,windows,intellij+all,jupyternotebooks
+# Large Data Files
+*.xlsx
+*.xls
+*.csv
+*.gz
+*.pbf
+
+# Temporary & Output Directories
+jeonggwan-github/
+jeonggwan/
+output_*/
+NODE_LINK/
+
+# Logs & Debug
+*.txt
+compile_error*.txt
+run_error*.txt
+
+# Images in input
+input/*.png
+
+# Temporary Excel Files
+~*
+
+
+# Large Input Files (GitHub Limit)
+input/jeonggwan-plans-v4.xml
+input/regional-transit-schedule.xml
+input/sejong-network.xml
+

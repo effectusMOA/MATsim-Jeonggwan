@@ -42,9 +42,9 @@
 	</module>
 
 	<module name="controler">
-		<param name="outputDirectory" value="./output/jeonggwan-v4" />
+		<param name="outputDirectory" value="./output/jeonggwan-v5" />
 		<param name="firstIteration" value="0" />
-		<param name="lastIteration" value="50" />
+		<param name="lastIteration" value="100" />
 		<param name="eventsFileFormat" value="xml" />
 		<param name="mobsim" value="qsim" />
 		<param name="writePlansInterval" value="10" />
@@ -79,7 +79,7 @@
 			</parameterset>
 			<parameterset type="modeParams">
 				<param name="mode" value="pt"/>
-				<param name="constant" value="-2.5" />
+				<param name="constant" value="-1.5" />
 				<param name="dailyMonetaryConstant" value="-1.0" />
 			</parameterset>
 			<parameterset type="modeParams">
@@ -142,7 +142,7 @@
 			</parameterset>
 			<parameterset type="modeParams">
 				<param name="mode" value="pt"/>
-				<param name="constant" value="-2.5" />
+				<param name="constant" value="-1.5" />
 				<param name="dailyMonetaryConstant" value="-1.0" />
 			</parameterset>
 			<parameterset type="modeParams">
@@ -205,7 +205,7 @@
 			</parameterset>
 			<parameterset type="modeParams">
 				<param name="mode" value="pt"/>
-				<param name="constant" value="-2.0" />
+				<param name="constant" value="-1.5" />
 				<param name="dailyMonetaryConstant" value="-1.0" />
 			</parameterset>
 			<parameterset type="modeParams">
@@ -268,7 +268,7 @@
 			</parameterset>
 			<parameterset type="modeParams">
 				<param name="mode" value="pt"/>
-				<param name="constant" value="-2.5" />
+				<param name="constant" value="-1.5" />
 				<param name="dailyMonetaryConstant" value="-1.0" />
 			</parameterset>
 			<parameterset type="modeParams">

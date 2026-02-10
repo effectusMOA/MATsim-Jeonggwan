@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE config SYSTEM "http://www.matsim.org/files/dtd/config_v2.dtd">
+<config>
+	<!-- Multi-Mode Configuration: DRT + SAV for Jeonggwan Scenario -->
+	<!-- DRT: Stop-based, 5 vehicles, 20 seats (minibus) -->
+	<!-- SAV: Door-to-door, 10 vehicles, 4 seats -->
+
+	<module name="multiModeDrt">
+		<!-- DRT Mode (Stop-based, large capacity) -->
+		<parameterset type="drt">
+			<parameterset type="ExtensiveInsertionSearch"/>
+			
+			<param name="mode" value="drt" />
+			<param name="operationalScheme" value="stopbased" />
+			<param name="transitStopFile" value="jeonggwan-drt-stops.xml"/>
+			<param name="vehiclesFile" value="jeonggwan-drt-vehicles-v3.xml"/>
+			
+			<param name="maxWaitTime" value="600.0" />
+			<param name="maxTravelTimeAlpha" value="1.5" />
+			<param name="maxTravelTimeBeta" value="300.0" />
+			<param name="maxWalkDistance" value="1000.0" />
+			<param name="stopDuration" value="60.0"/>
+			
+			<param name="idleVehiclesReturnToDepots" value="false" />
+			<param name="useModeFilteredSubnetwork" value="false"/>
+			<param name="rejectRequestIfMaxWaitOrTravelTimeViolated" value="false" />
+			<param name="writeDetailedCustomerStats" value="true"/>
+			<param name="changeStartLinkToLastLinkInSchedule" value="true" />
+			
+			<parameterset type="drtfare">
+				<!-- DRT: 마을버스 수준 요금 -->
+				<!-- basefare: 1,500 KRW = 1.0 EUR -->
+				<param name="basefare" value="1.0"/>
+				<param name="minFarePerTrip" value="1.0"/>
+				<param name="dailySubscriptionFee" value="0.0"/>
+				<!-- distanceFare: 150 KRW/km = 0.0001 EUR/m -->
+				<param name="distanceFare_m" value="0.0001"/>
+				<param name="timeFare_h" value="0.0"/>
+			</parameterset>
+			
+			<parameterset type="zonalSystem">
+				<parameterset type="SquareGridZoneSystem">
+					<param name="cellSize" value="500"/>
+				</parameterset>
+			</parameterset>
+		</parameterset>
+
+		<!-- SAV Mode (Door-to-door, small capacity) -->
+		<parameterset type="drt">
+			<parameterset type="ExtensiveInsertionSearch"/>
+			
+			<param name="mode" value="sav" />
+			<param name="operationalScheme" value="door2door" />
+			<param name="vehiclesFile" value="jeonggwan-sav-vehicles-v3.xml"/>
+			
+			<param name="maxWaitTime" value="300.0" />
+			<param name="maxTravelTimeAlpha" value="1.5" />
+			<param name="maxTravelTimeBeta" value="300.0" />
+			<param name="stopDuration" value="30.0"/>
+			
+			<param name="idleVehiclesReturnToDepots" value="false" />
+			<param name="useModeFilteredSubnetwork" value="false"/>
+			<param name="rejectRequestIfMaxWaitOrTravelTimeViolated" value="false" />
+			<param name="writeDetailedCustomerStats" value="true"/>
+			<param name="changeStartLinkToLastLinkInSchedule" value="true" />
+			
+			<parameterset type="drtfare">
+				<!-- SAV: 택시형 요금 (택시보다 저렴) -->
+				<!-- basefare: 3,750 KRW = 2.5 EUR -->
+				<param name="basefare" value="2.5"/>
+				<param name="minFarePerTrip" value="2.5"/>
+				<param name="dailySubscriptionFee" value="0.0"/>
+				<!-- distanceFare: 600 KRW/km = 0.0004 EUR/m (DRT의 4배) -->
+				<param name="distanceFare_m" value="0.0004"/>
+				<param name="timeFare_h" value="0.0"/>
+			</parameterset>
+			
+			<parameterset type="zonalSystem">
+				<parameterset type="SquareGridZoneSystem">
+					<param name="cellSize" value="500"/>
+				</parameterset>
+			</parameterset>
+		</parameterset>
+	</module>
+
+	<module name="dvrp">
+		<param name="mobsimMode" value="car"/>
+		<param name="networkModes" value="car"/>
+		<param name="travelTimeEstimationAlpha" value="0.05"/>
+		<param name="travelTimeEstimationBeta" value="0.0"/>
+	</module>
+
+</config>

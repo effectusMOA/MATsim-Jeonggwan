@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE config SYSTEM "http://www.matsim.org/files/dtd/config_v2.dtd">
+<config>
+
+	<!-- ========================================================================
+	     DRT 운영 모드 3가지:
+	     1. door2door     - 문전연결, 어디서든 승하차 가능
+	     2. stopbased     - 정류장 기반, 정해진 정류장에서만 승하차
+	     3. serviceAreaBased - 구역 기반, 지정된 구역 내에서 문전연결
+	     
+	     현재 베를린 설정: serviceAreaBased (서비스 구역 내 Door-to-Door)
+	     ======================================================================== -->
+
+	<module name="berlinExperimental" >
+		<!-- [serviceAreaBased] 서비스 구역 주변의 링크를 DRT용으로 버퍼링할 거리 (미터)
+		     → 구역 경계 밖 5km까지의 도로도 DRT가 이용 가능
+		     [door2door] 사용 안 함
+		     [stopbased] 사용 안 함 -->
+		<param name="tagDrtLinksBufferAroundServiceAreaShp" value="5000.0" />
+	</module>
+
+	<module name="multiModeDrt">
+		<parameterset type="drt">
+			<!-- ================================================================
+			     배차 알고리즘 설정
+			     ExtensiveInsertionSearch: 모든 차량의 경로에 끼워넣기 시도
+			     [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용
+			     ================================================================ -->
+			<parameterset type="ExtensiveInsertionSearch"/>
+			
+			<!-- [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용
+			     참(true)일 경우, 차량의 시작 링크를 이전 스케줄의 마지막 링크로 변경 -->
+			<param name="changeStartLinkToLastLinkInSchedule" value="true" />
+			
+			<!-- ★★★ [serviceAreaBased 전용] ★★★
+			     DRT 서비스 구역을 정의하는 GIS 파일 (Shapefile/GeoPackage)
+			     이 구역 내에서만 승하차 가능, 구역 밖 호출 불가
+			     [door2door] 사용 안 함 (전체 네트워크 사용)
+			     [stopbased] 사용 안 함 (정류장 위치가 구역 역할) -->
+			<param name="drtServiceAreaShapeFile" value="https://svn.vsp.tu-berlin.de/repos/public-svn/matsim/scenarios/countries/de/berlin/berlin-v6.4/input/shp/berlin_inner_city.gpkg" />
+			
+			<!-- [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용
+			     유휴 차량이 차고지로 돌아갈지 여부
+			     false: 승객 하차 지점에서 대기 -->
+			<param name="idleVehiclesReturnToDepots" value="false" />
+			
+			<!-- ================================================================
+			     제약 조건 (Constraints) - 모든 모드에서 사용
+			     ================================================================ -->
+			
+			<!-- [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용
+			     최대 통행 시간 = Alpha × 직통시간 + Beta
+			     1.7 × 직통시간 + 2분 = 최대 허용 시간 -->
+			<param name="maxTravelTimeAlpha" value="1.7" />
+			<param name="maxTravelTimeBeta" value="120.0" />
+			
+			<!-- [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용
+			     최대 대기 시간 (초). 300초 = 5분 -->
+			<param name="maxWaitTime" value="300.0" />
+			
+			<!-- ★★★ [stopbased 전용] ★★★
+			     정류장 기반 시스템에서 다음 정류장까지의 최대 도보 거리 (미터)
+			     이 거리 내에 정류장이 없으면 직접 도보로 이동
+			     [door2door] 사용 안 함 (전체 링크에서 승하차)
+			     [serviceAreaBased] 사용 안 함 (구역 내 모든 링크에서 승하차) -->
+			<param name="maxWalkDistance" value="2000.0" />
+			
+			<!-- 모드 이름 (drt, av_taxi 등 자유롭게 설정 가능) -->
+			<param name="mode" value="drt" />
+			
+			<!-- ★★★ 운영 방식 선택 ★★★
+			     - door2door: 문전연결, 네트워크 전체에서 승하차
+			     - stopbased: 정류장 기반, transitStopFile 필요
+			     - serviceAreaBased: 구역 기반, drtServiceAreaShapeFile 필요 -->
+			<param name="operationalScheme" value="serviceAreaBased" />
+			
+			<!-- [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용
+			     제약 조건 위반 시 처리 방식
+			     false: Soft Constraint (배차는 하되 페널티 부과)
+			     true: Hard Constraint (배차 거부) -->
+			<param name="rejectRequestIfMaxWaitOrTravelTimeViolated" value="false" />
+			
+			<!-- [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용
+			     승객 승하차 시간 (초). 60초 = 1분 -->
+			<param name="stopDuration" value="60.0"/>
+			
+			<!-- ★★★ [stopbased 전용] ★★★
+			     DRT 정류장을 정의하는 파일 (transit schedule 포맷)
+			     [door2door] 사용 안 함
+			     [serviceAreaBased] 사용 안 함
+			     
+			     예시:
+			     <param name="transitStopFile" value="drt-stops.xml"/>
+			     -->
+			<param name="transitStopFile" value="null"/>
+			
+			<!-- [serviceAreaBased 전용]
+			     차량 운행을 'allowedModes'에 이 'mode'가 포함된 링크로만 제한
+			     true: 서비스 구역 내의 링크에서만 운행 (Java 코드가 자동으로 태그)
+			     [door2door] 보통 false (전체 car 네트워크 사용)
+			     [stopbased] 보통 false -->
+			<param name="useModeFilteredSubnetwork" value="true"/>
+			
+			<!-- [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용
+			     차량 편대(Fleet) 정의 파일 -->
+			<param name="vehiclesFile"
+				   value="https://svn.vsp.tu-berlin.de/repos/public-svn/matsim/scenarios/countries/de/berlin/berlin-v6.4/input/berlin-v6.4.drt-by-rndLocations-500vehicles-4seats.xml.gz"/>
+			
+			<!-- [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용 -->
+			<param name="writeDetailedCustomerStats" value="true"/>
+			
+			<!-- ================================================================
+			     요금 설정 - 모든 모드에서 사용
+			     단, 현재 베를린 시나리오는 Java 코드가 이를 PT 요금으로 덮어씀
+			     ================================================================ -->
+			<parameterset type="drtfare">
+				<!-- [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용 -->
+				<param name="basefare" value="0.0"/>
+				<param name="minFarePerTrip" value="0.0"/>
+				<param name="dailySubscriptionFee" value="0.0"/>
+				<param name="distanceFare_m" value="0.0"/>
+				<param name="timeFare_h" value="0.0"/>
+			</parameterset>
+			
+			<!-- 공간 분석을 위한 그리드 시스템 -->
+			<parameterset type="zonalSystem">
+				<parameterset type="SquareGridZoneSystem">
+					<param name="cellSize" value="1000"/>
+				</parameterset>
+			</parameterset>
+		</parameterset>
+	</module>
+
+	<!-- ========================================================================
+	     DVRP (Dynamic Vehicle Routing Problem) 모듈
+	     DRT의 핵심 엔진으로, 모든 모드에서 사용
+	     ======================================================================== -->
+	<module name="dvrp">
+		<!-- [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용
+		     DRT 차량이 물리적으로 어떤 교통수단처럼 움직일지 -->
+		<param name="mobsimMode" value="car"/>
+		
+		<!-- [serviceAreaBased 전용] 
+		     DRT 차량의 경로 탐색에 사용할 네트워크 모드
+		     Java 코드가 서비스 구역 내 링크에 'drt' 모드를 추가함
+		     [door2door] 보통 "car" (전체 car 네트워크 사용)
+		     [stopbased] 보통 "car" -->
+		<param name="networkModes" value="drt"/>
+		
+		<!-- [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용
+		     통행 시간 추정 파라미터 -->
+		<param name="travelTimeEstimationAlpha" value="0.05"/>
+		<param name="travelTimeEstimationBeta" value="0.0"/>
+		
+		<parameterset type="travelTimeMatrix">
+			<parameterset type="SquareGridZoneSystem">
+				<param name="cellSize" value="1000"/>
+			</parameterset>
+			<param name="maxNeighborDistance" value="10000"/>
+		</parameterset>
+	</module>
+
+	<!-- ========================================================================
+	     SwissRailRaptor 모듈 - 대중교통 + DRT 연계 (Intermodal)
+	     
+	     ★★★ 이 설정은 DRT 운영 모드(door2door/stopbased/serviceAreaBased)와 무관 ★★★
+	     "DRT를 타고 지하철역까지 간다" = PT 연계용
+	     DRT 자체의 정류장(stopbased)과는 다른 개념!
+	     ======================================================================== -->
+	<module name="swissRailRaptor" >
+		<!-- [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용 가능
+		     PT 라우터가 DRT를 접근/이탈 수단으로 고려할지 여부 -->
+		<param name="intermodalAccessEgressModeSelection" value="CalcLeastCostModePerStop" />
+		<param name="useIntermodalAccessEgress" value="true" />
+		
+		<!-- Walk 접근/이탈 설정 -->
+		<parameterset type="intermodalAccessEgress" >
+			<param name="initialSearchRadius" value="1500.0" />
+			<param name="linkIdAttribute" value="null" />
+			<param name="maxRadius" value="100000.0" />
+			<param name="mode" value="walk" />
+			<param name="searchExtensionRadius" value="1000.0" />
+			<param name="stopFilterAttribute" value="null" />
+			<param name="stopFilterValue" value="null" />
+		</parameterset>
+		
+		<!-- ★★★ DRT 접근/이탈 설정 ★★★
+		     이것은 DRT의 "stopbased" 정류장이 아니라,
+		     "DRT로 갈 수 있는 PT 환승 거점(지하철역)"을 정의합니다!
+		     
+		     [door2door/stopbased/serviceAreaBased] 모든 모드에서 사용 가능
+		     -->
+		<parameterset type="intermodalAccessEgress" >
+			<!-- DRT로 PT 정류장까지 가는 최대 거리 -->
+			<param name="initialSearchRadius" value="3000.0" />
+			<param name="linkIdAttribute" value="null" />
+			<param name="maxRadius" value="12000.0" />
+			<param name="mode" value="drt" />
+			<param name="searchExtensionRadius" value="1000.0" />
+			
+			<!-- ★★★ PT 환승 거점 필터 ★★★
+			     Java 코드(tagTransitStopsInServiceArea)가 이 태그를 추가함
+			     = 서비스 구역 내의 주요 역(S/U/RE/RB)
+			     → DRT 자체의 정류장이 아니라, "환승 가능한 지하철역" 필터! -->
+			<param name="stopFilterAttribute" value="drtStopFilter" />
+			<param name="stopFilterValue" value="station_S/U/RE/RB_drtServiceArea" />
+		</parameterset>
+	</module>
+</config>

@@ -32,9 +32,9 @@
 		<param name="maxBeelineWalkConnectionDistance" value="500" />
 		<!-- 직행 도보 비용 계수: PT보다 walk가 더 빠를 때만 walk 선택 -->
 		<param name="directWalkFactor" value="1.0" />
-		<!-- 최대 환승 횟수 (기본 2회 → 5회, O1→D2 같은 3회 환승 경로 허용) -->
-		<param name="maxTransfers" value="5" />
+		<!-- Note: maxTransfers는 MATSim core에서 지원하지 않음. 환승 제한 없이 탐색됨 -->
 	</module>
+
 
 
 	<!-- Added planscalcroute for Walk Speed -->
@@ -58,7 +58,7 @@
 	</module>
 
 	<module name="controler">
-		<param name="outputDirectory" value="./output/jeonggwan-v6-regional" />
+		<param name="outputDirectory" value="./output/jeonggwan-v7" />
 		<param name="firstIteration" value="0" />
 		<param name="lastIteration" value="100" />
 		<param name="eventsFileFormat" value="xml" />
